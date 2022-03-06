@@ -50,3 +50,6 @@ class MemoMedia(models.Model):
     item = models.ForeignKey(
         MemoItem, on_delete=models.CASCADE, related_name="media", null=True
     )
+
+    def __str__(self):
+        return f"{self.type}: {self.item}"
