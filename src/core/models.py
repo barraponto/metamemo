@@ -12,7 +12,7 @@ class MemoSource(models.Model):
 
     name = models.CharField(max_length=256)
     url = models.URLField(max_length=256)
-    meta = models.ForeignKey(MetaMemo, on_delete=models.CASCADE)
+    memo = models.ForeignKey(MetaMemo, on_delete=models.CASCADE)
 
 
 class MemoItem(models.Model):
