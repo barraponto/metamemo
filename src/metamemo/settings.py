@@ -124,3 +124,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Celery settings
 
 CELERY_BROKER_URL = config("CELERY_BROKER_URL")
+
+# Crowdtangle settings
+# comment if facebook_ct is not enabled
+CROWDTANGLE_FACEBOOK_API_KEY = config("CROWDTANGLE_FACEBOOK_API_KEY")
+CROWDTANGLE_POSTS_COUNT = config("CROWDTANGLE_POSTS_COUNT")
+CROWDTANGLE_POSTS_INTERVAL = config("CROWDTANGLE_POSTS_INTERVAL")
