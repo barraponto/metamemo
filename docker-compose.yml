@@ -7,3 +7,7 @@ services:
     environment:
       - MARIADB_ROOT_PASSWORD
 
+  broker:
+    image: redis:6
+    ports:
+      - 63790:6379
