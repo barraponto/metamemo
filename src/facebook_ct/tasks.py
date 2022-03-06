@@ -3,22 +3,22 @@ from django.core.files import File
 from purl import URL
 
 from core.models import MemoItem, MemoMedia, MemoSource
-from .api import CrowdTangleAPI
-from .utils import streaming_download
+from .api import FBCrowdTangleAPI
+from core.utils import streaming_download
 
 
 @shared_task
 def get_facebook_data(source_id):
     source = MemoSource.objects.get(pk=source_id)
     username = URL(source.url).path_segment(-1)
-    for post in CrowdTangleAPI(username):
+    for post in FBCrowdTangleAPI(username):
         item = MemoItem(
             url=post["postUrl"], created=post["date"], raw=post, source=source
         )
         item.save()
 
 
-facebook_media_types = {
+instagram_media_types = {
     "video": MemoMedia.MediaTypes.VIDEO,
     "photo": MemoMedia.MediaTypes.IMAGE,
 }
@@ -29,7 +29,7 @@ def get_facebook_media(item_id):
     item = MemoItem.objects.get(pk=item_id)
     for media in item.raw.get("media", []):
         item.media.create(
-            type=facebook_media_types[media["type"]], url=media["url"], raw=media
+            type=instagram_media_types[media["type"]], url=media["url"], raw=media
         )
 
 
