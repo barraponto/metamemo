@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 class MetaMemo(models.Model):
@@ -28,6 +29,7 @@ class MemoItem(models.Model):
     created = models.DateTimeField(null=True)
     updated = models.DateTimeField(null=True)
     extracted = models.DateTimeField(auto_now_add=True)
+    raw = models.JSONField(encoder=DjangoJSONEncoder, null=True)
     source = models.ForeignKey(MemoSource, on_delete=models.CASCADE)
 
 
