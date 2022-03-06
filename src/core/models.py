@@ -6,6 +6,9 @@ class MetaMemo(models.Model):
 
     name = models.CharField(max_length=256)
 
+    def __str__(self):
+        return self.name
+
 
 class MemoSource(models.Model):
     """A (social) media source for a given profile."""
@@ -13,6 +16,9 @@ class MemoSource(models.Model):
     name = models.CharField(max_length=256)
     url = models.URLField(max_length=256)
     memo = models.ForeignKey(MetaMemo, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.memo.name}: {self.name}"
 
 
 class MemoItem(models.Model):
