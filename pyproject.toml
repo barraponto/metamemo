@@ -13,6 +13,8 @@ mysqlclient = "^2.1.0"
 celery = {extras = ["redis"], version = "^5.2.3"}
 purl = "^1.6"
 requests = "^2.27.1"
+django-storages = "^1.12.3"
+boto3 = "^1.21.13"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
