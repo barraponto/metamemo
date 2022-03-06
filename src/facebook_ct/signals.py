@@ -11,9 +11,4 @@ def on_source_save(sender, instance, created, **kwargs):
     if not created or not URL(instance.url).host().endswith("facebook.com"):
         return
 
-    try:
-        username = URL(instance.url).path().split("/").pop(1)
-    except IndexError:
-        pass
-    else:
-        get_facebook_data.delay(username)
+    get_facebook_data.delay(instance.id)

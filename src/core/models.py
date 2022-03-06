@@ -19,7 +19,7 @@ class MemoSource(models.Model):
     memo = models.ForeignKey(MetaMemo, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.memo.name}: {self.name}"
+        return f"{self.memo}: {self.name}"
 
 
 class MemoItem(models.Model):
@@ -31,6 +31,9 @@ class MemoItem(models.Model):
     extracted = models.DateTimeField(auto_now_add=True)
     raw = models.JSONField(encoder=DjangoJSONEncoder, null=True)
     source = models.ForeignKey(MemoSource, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.source}: {self.created}"
 
 
 class MemoMedia(models.Model):
