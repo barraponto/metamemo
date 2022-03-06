@@ -45,4 +45,8 @@ class MemoMedia(models.Model):
 
     type = models.CharField(max_length=8, choices=MediaTypes.choices)
     url = models.URLField(max_length=512)
+    raw = models.JSONField(encoder=DjangoJSONEncoder, null=True)
     media = models.FileField(upload_to="media")
+    item = models.ForeignKey(
+        MemoItem, on_delete=models.CASCADE, related_name="media", null=True
+    )
