@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "core",
     "facebook_ct",
+    "instagram_ct",
 ]
 
 MIDDLEWARE = [
@@ -125,11 +126,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CELERY_BROKER_URL = config("CELERY_BROKER_URL")
 
-# Crowdtangle settings
-# comment if facebook_ct is not enabled
-CROWDTANGLE_FACEBOOK_API_KEY = config("CROWDTANGLE_FACEBOOK_API_KEY")
+# Crowdtangle settings (comment if facebook_ct and instagram_ct are disabled)
 CROWDTANGLE_POSTS_COUNT = config("CROWDTANGLE_POSTS_COUNT")
 CROWDTANGLE_POSTS_INTERVAL = config("CROWDTANGLE_POSTS_INTERVAL")
+# comment if facebook_ct is not enabled
+CROWDTANGLE_FACEBOOK_API_KEY = config("CROWDTANGLE_FACEBOOK_API_KEY")
+# comment if instagram_ct is not enabled
+CROWDTANGLE_INSTAGRAM_API_KEY = config("CROWDTANGLE_INSTAGRAM_API_KEY")
 
 # Minio settings
 # comment if not using minio or aws
