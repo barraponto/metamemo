@@ -1,22 +1,58 @@
 version: "3.9"
 services:
   database:
-    image: mariadb:10.3.34
-    ports: 
-      - 33060:3306
+    image: mariadb:10.6
     environment:
       - MARIADB_ROOT_PASSWORD
+    volumes:
+      - ./create-database.sql:/docker-entrypoint-initdb.d/create-database.sql
+    healthcheck:
+      test: mysql --user=root --password=$$MARIADB_ROOT_PASSWORD --silent --execute "SHOW DATABASES;"
+      timeout: 1s 
+      interval: 1s
+      retries: 30
 
   broker:
-    image: redis:6
-    ports:
-      - 63790:6379
+    image: redis:6.2
+    healthcheck:
+      test: redis-cli --raw incr ping
+      timeout: 1s 
+      interval: 1s
+      retries: 30
 
   storage:
-    image: minio/minio
+    image: minio/minio:latest
+    environment:
+      - MINIO_ROOT_USER
+      - MINIO_ROOT_PASSWORD
+    healthcheck:
+      test: curl -f http://localhost:9000/minio/health/live
+      timeout: 1s
+      interval: 1s
+      retries: 30
+    command: server /data --console-address :9001
+  
+  metamemo:
+    build: .
+    image: barraponto/metamemo:latest
+    depends_on:
+      broker:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+      storage:
+        condition: service_healthy
     ports:
-      - 9000:9000
-      - 9001:9001
-    command: ["server", "/data", "--console-address", ":9001"]
+      - 8000:8000
+    environment:
+      - DATABASE_URL
+      - CELERY_BROKER_URL
+      - CROWDTANGLE_FACEBOOK_API_KEY
+      - CROWDTANGLE_INSTAGRAM_API_KEY
+      - CROWDTANGLE_POSTS_COUNT
+      - CROWDTANGLE_POSTS_INTERVAL
+      - AWS_S3_ENDPOINT_URL
+      - AWS_S3_ACCESS_KEY_ID
+      - AWS_S3_SECRET_ACCESS_KEY
+      - AWS_STORAGE_BUCKET_NAME
 
- 
